@@ -111,15 +111,13 @@ type MintAccounts = {
   tokenAccount: TokenAccount;
 };
 
-const assertRejectsWithCode =
-  (expectedCode: number) => async (rpcInvocation) => {
-    await assert.rejects(
-      async () => {
-        await rpcInvocation();
-      },
-      (err: { code: number }) => {
-        assert.equal(err.code, expectedCode);
-        return true;
-      }
-    );
-  };
+const assertRejectsWithCode = (expectedCode: number) => async (rpcInvocation) =>
+  assert.rejects(
+    async () => {
+      await rpcInvocation();
+    },
+    (err: { code: number }) => {
+      assert.equal(err.code, expectedCode);
+      return true;
+    }
+  );
