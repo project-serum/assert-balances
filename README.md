@@ -1,5 +1,7 @@
 # Assert Balances
 
+[![Build Status](https://app.travis-ci.com/project-serum/assert-balances.svg?branch=master)](https://app.travis-ci.com/project-serum/assert-balances)
+
 Assert Balances can be used as an additional safety check by wallets and other apps
 to ensure the outcome of a given transaction is as expected. One can
 insert into the end of a transaction an instruction that calls this program,
