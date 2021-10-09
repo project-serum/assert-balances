@@ -58,13 +58,11 @@ describe("assert-balances", () => {
       accounts: {
         user: program.provider.wallet.publicKey,
       },
-      remainingAccounts: mints.map((m) => {
-        return {
-          pubkey: m.tokenAddress,
-          isWritable: false,
-          isSigner: false,
-        };
-      }),
+      remainingAccounts: mints.map((m) => ({
+        pubkey: m.tokenAddress,
+        isWritable: false,
+        isSigner: false,
+      })),
     };
   });
 
@@ -117,7 +115,7 @@ const assertRejectsWithCode = (expectedCode: number) => async (rpcInvocation) =>
     async () => {
       await rpcInvocation();
     },
-    (err: { code: number }) => {
+    (err: { code: number; msg: string }) => {
       assert.equal(err.code, expectedCode);
       return true;
     }
