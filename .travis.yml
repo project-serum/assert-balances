@@ -19,7 +19,6 @@ cache:
   directories:
     - ~/.local/share/solana
     - ~/.cargo
-    - ~/.nvm/versions/node/${NODE_VERSION}/lib/node_modules
     - ./target
     - ./node_modules
 
