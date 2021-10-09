@@ -1,6 +1,8 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, TokenAccount};
 
+declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+
 #[program]
 pub mod assert_balances {
     use super::*;
@@ -40,7 +42,7 @@ pub mod assert_balances {
             }
 
             // Deserialize the token account.
-            let token = CpiAccount::<TokenAccount>::try_accounts(ctx.program_id, &mut accs, &[])?;
+            let token = Account::<TokenAccount>::try_accounts(ctx.program_id, &mut accs, &[])?;
 
             // Is it owned by the SPL token program.
             if token.to_account_info().owner != &token::ID {
