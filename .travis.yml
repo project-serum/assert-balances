@@ -1,28 +1,36 @@
 dist: bionic
+
 language: rust
 rust:
   - stable
+
+cache:
+  directories:
+    - $HOME/.local/share/solana
+    - $HOME/.cargo
+    - $TRAVIS_BUILD_DIR/target
+    - $TRAVIS_BUILD_DIR/node_modules
+
 env:
   global:
     - NODE_VERSION="v14.7.0"
-    - SOLANA_VERSION="v1.7.8"
+    - SOLANA_VERSION="v1.7.11"
 git:
   submodules: true
 
 _defaults: &defaults
   before_install:
-  - nvm install $NODE_VERSION
-  - npm install -g ts-mocha
-  - sudo apt-get install -y pkg-config build-essential libudev-dev
-  - sh -c "$(curl -sSfL https://release.solana.com/${SOLANA_VERSION}/install)"
-  - export PATH="/home/travis/.local/share/solana/install/active_release/bin:$PATH"
-  - export NODE_PATH="/home/travis/.nvm/versions/node/${NODE_VERSION}/lib/node_modules/:${NODE_PATH}"
-  - yes | solana-keygen new
-  - yarn
+    - nvm install $NODE_VERSION
+    - sudo apt-get install -y pkg-config build-essential libudev-dev
+    - sh -c "$(curl -sSfL https://release.solana.com/${SOLANA_VERSION}/install)"
+    - export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+    - export NODE_PATH="$HOME/.nvm/versions/node/${NODE_VERSION}/lib/node_modules/:${NODE_PATH}"
+    - yes | solana-keygen new
 
 jobs:
   include:
     - <<: *defaults
       name: Builds and runs the tests
       script:
-        - yarn test
+        - yarn install
+        - npx @project-serum/anchor-cli test
