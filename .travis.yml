@@ -5,7 +5,6 @@ rust:
   - stable
 
 matrix:
-  fast_finish: true
   before_cache:
     - rm -rf ~/.cargo/registry/index/
     - rm -f  ./target/.rustc_info.json
