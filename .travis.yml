@@ -1,30 +1,36 @@
 dist: bionic
-
 language: rust
+
 rust:
   - stable
 
+matrix:
+  fast_finish: true
+  before_cache:
+    - rm -rf ~/.cargo/registry/index/
+    - rm -f  ./target/.rustc_info.json
+    - find ./target/debug -maxdepth 1 -type f -delete
+
 cache:
   directories:
-    - $HOME/.local/share/solana
-    - $HOME/.cargo
-    - $TRAVIS_BUILD_DIR/target
-    - $TRAVIS_BUILD_DIR/node_modules
+    - ~/.local/share/solana
+    - ~/.cargo
+    - ~/.nvm
+    - ./target
+    - ./node_modules
 
 env:
   global:
     - NODE_VERSION="v14.7.0"
     - SOLANA_VERSION="v1.7.11"
-git:
-  submodules: true
 
 _defaults: &defaults
   before_install:
     - nvm install $NODE_VERSION
     - sudo apt-get install -y pkg-config build-essential libudev-dev
     - sh -c "$(curl -sSfL https://release.solana.com/${SOLANA_VERSION}/install)"
-    - export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
-    - export NODE_PATH="$HOME/.nvm/versions/node/${NODE_VERSION}/lib/node_modules/:${NODE_PATH}"
+    - export PATH="~/.local/share/solana/install/active_release/bin:$PATH"
+    - export NODE_PATH="~/.nvm/versions/node/${NODE_VERSION}/lib/node_modules/:${NODE_PATH}"
     - yes | solana-keygen new
 
 jobs:
@@ -32,5 +38,5 @@ jobs:
     - <<: *defaults
       name: Builds and runs the tests
       script:
-        - yarn install
+        - yarn install --frozen-lockfile
         - npx @project-serum/anchor-cli test
