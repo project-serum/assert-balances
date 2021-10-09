@@ -4,6 +4,12 @@ language: rust
 rust:
   - stable
 
+env:
+  global:
+    - NODE_VERSION="v14.7.0"
+    - SOLANA_VERSION="v1.7.11"
+
+fast_finish: true
 before_cache:
   - rm -rf ~/.cargo/registry/index/
   - rm -f  ./target/.rustc_info.json
@@ -13,14 +19,9 @@ cache:
   directories:
     - ~/.local/share/solana
     - ~/.cargo
-    - ~/.nvm
+    - ~/.nvm/versions/node/${NODE_VERSION}/lib/node_modules
     - ./target
     - ./node_modules
-
-env:
-  global:
-    - NODE_VERSION="v14.7.0"
-    - SOLANA_VERSION="v1.7.11"
 
 _defaults: &defaults
   before_install:
